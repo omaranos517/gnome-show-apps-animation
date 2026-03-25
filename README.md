@@ -1,24 +1,34 @@
-# Show Apps Scale Down Animation
+# GNOME Show Apps Scale Animation
 
-إضافة GNOME Shell تضيف حركة `Scale Down` قصيرة عند الضغط على أي تطبيق من شاشة `Show Apps`.
+Adds a smooth scale-down click animation to app icons launched from the GNOME Show Apps grid.
 
-## التثبيت
+## Features
+- Smooth scale-down animation on icon click
+- Bounce effect when returning to normal size
+- Lightweight and fast
+- Works on GNOME 46 (adjustable for other versions)
 
-انسخ المجلد إلى:
+## Installation
+1. Clone or download this repository.
+2. Copy the folder to:
+   `~/.local/share/gnome-shell/extensions/scale-down-animation@omaranos.gmail.com/`
+3. Restart GNOME Shell:
+   - **Xorg**: `Alt + F2`, type `r`, press Enter
+   - **Wayland**: logout and login again
+4. Enable the extension using GNOME Extensions app or `gnome-extensions enable scale-down-animation@omaranos.gmail.com`
 
-```bash
-~/.local/share/gnome-shell/extensions/scale-down-animation@omaranos.gmail.com
-```
+## Usage
+- Click any app icon in the Show Apps grid
+- Watch the smooth scale-down animation with bounce effect
 
-ثم فعّل الإضافة:
+## Future Plans
+- Add settings to customize:
+  - Animation speed
+  - Scale factor
+  - Animation type (bounce, zoom, etc.)
+- Support more GNOME versions
+- Optionally integrate with other GNOME UI enhancements
 
-```bash
-gnome-extensions enable scale-down-animation@omaranos.gmail.com
-```
 
-بعد ذلك أعد تحميل GNOME Shell أو سجّل الخروج ثم ادخل مرة أخرى.
-
-## ملاحظات
-
-- الإضافة مستهدفة حاليًا لـ `GNOME Shell 46`.
-- التأثير يعمل عند استدعاء `activate()` لأيقونات التطبيقات من شاشة `Show Apps`.
+## License
+This project is licensed under the [GNU GPL v2 License](LICENSE) – free to use, modify, and redistribute under the same license.
