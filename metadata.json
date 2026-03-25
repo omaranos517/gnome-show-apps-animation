@@ -1,0 +1,10 @@
+{
+  "uuid": "show-apps-animation@omaranos.gmail.com",
+  "name": "Show Apps Scale Down Animation",
+  "description": "Adds a scale down click animation to app icons launched from the Show Apps grid.",
+  "shell-version": [
+    "46"
+  ],
+  "url": "localhost",
+  "version": 1
+}
