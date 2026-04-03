@@ -1,6 +1,7 @@
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
@@ -19,24 +20,29 @@ export default class ShowAppsScaleDownAnimationExtension extends Extension {
             const appIcon = this;
             const iconActor = extension._getAnimatableActor(appIcon);
 
-            if (!iconActor) {
-                extension._originalActivate.call(appIcon, ...args);
-                return;
-            }
+            let originalHide = Main.overview.hide;
+            Main.overview.hide = () => {}; 
 
             if (appIcon._scaleDownAnimationInFlight)
                 return;
 
             appIcon._scaleDownAnimationInFlight = true;
 
-            extension._playScaleDownAnimation(iconActor, () => {
-                extension._originalActivate.call(appIcon, ...args);
+            if (iconActor) {
+                extension._playScaleDownAnimation(iconActor, () => {
+                    extension._originalActivate.call(appIcon, ...args);
 
-                GLib.timeout_add(GLib.PRIORITY_DEFAULT, RESET_DELAY_MS, () => {
-                    appIcon._scaleDownAnimationInFlight = false;
-                    return GLib.SOURCE_REMOVE;
+                    GLib.timeout_add(GLib.PRIORITY_DEFAULT, RESET_DELAY_MS, () => {
+                        appIcon._scaleDownAnimationInFlight = false;
+                        return GLib.SOURCE_REMOVE;
+                    });
+                    Main.overview.hide = originalHide;
+                    Main.overview.hide();
                 });
-            });
+            } else {
+                Main.overview.hide = originalHide;
+                Main.overview.hide();
+            }
         };
     }
 
