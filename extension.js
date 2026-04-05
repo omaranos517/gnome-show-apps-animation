@@ -30,14 +30,17 @@ export default class ShowAppsScaleDownAnimationExtension extends Extension {
 
             if (iconActor) {
                 extension._playScaleDownAnimation(iconActor, () => {
-                    extension._originalActivate.call(appIcon, ...args);
-
-                    GLib.timeout_add(GLib.PRIORITY_DEFAULT, RESET_DELAY_MS, () => {
-                        appIcon._scaleDownAnimationInFlight = false;
-                        return GLib.SOURCE_REMOVE;
-                    });
-                    Main.overview.hide = originalHide;
-                    Main.overview.hide();
+                    try {
+                        extension._originalActivate.call(appIcon, ...args);
+                    } finally {
+                        Main.overview.hide = originalHide;
+                        Main.overview.hide();
+                        
+                        GLib.timeout_add(GLib.PRIORITY_DEFAULT, RESET_DELAY_MS, () => {
+                            appIcon._scaleDownAnimationInFlight = false;
+                            return GLib.SOURCE_REMOVE;
+                        });
+                    }
                 });
             } else {
                 Main.overview.hide = originalHide;
