@@ -14,6 +14,7 @@ export default class ShowAppsScaleDownAnimationExtension extends Extension {
             return;
 
         const extension = this;
+        this._timeoutId = [];
         this._originalActivate = AppDisplay.AppIcon.prototype.activate;
 
         AppDisplay.AppIcon.prototype.activate = function (...args) {
@@ -36,10 +37,12 @@ export default class ShowAppsScaleDownAnimationExtension extends Extension {
                         Main.overview.hide = originalHide;
                         Main.overview.hide();
                         
-                        GLib.timeout_add(GLib.PRIORITY_DEFAULT, RESET_DELAY_MS, () => {
+                        let timeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, RESET_DELAY_MS, () => {
                             appIcon._scaleDownAnimationInFlight = false;
+                            extension._timeoutId = extension._timeoutId.filter(id => id !== timeoutId);
                             return GLib.SOURCE_REMOVE;
                         });
+                        extension._timeoutId.push(timeoutId);
                     }
                 });
             } else {
@@ -52,6 +55,11 @@ export default class ShowAppsScaleDownAnimationExtension extends Extension {
     disable() {
         if (!this._originalActivate)
             return;
+
+        if (this._timeoutId) {
+            this._timeoutId.forEach(id => GLib.Source.remove(id));
+            this._timeoutId = [];
+        }
 
         AppDisplay.AppIcon.prototype.activate = this._originalActivate;
         this._originalActivate = null;
