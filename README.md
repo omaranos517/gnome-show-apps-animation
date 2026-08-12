@@ -15,7 +15,7 @@ Adds a smooth scale-down click animation to app icons launched from the GNOME Sh
 
 
 2. Or install it manually:
-   1. Download the [latest release](https://github.com/omaranos517/gnome-show-apps-animation/releases/latest) (for example **Source code (zip)**), then extract the archive and open the extracted folder in a terminal.
+   1. Download the [source](https://github.com/omaranos517/gnome-show-apps-animation/archive/refs/heads/main.zip) (for example **Source code (zip)**), then extract the archive and open the extracted folder in a terminal.
    2. Either run **`./install.sh`** from that folder (it copies files, tries to enable the extension, and explains how to reload GNOME Shell), **or** copy the extension files into:
       `~/.local/share/gnome-shell/extensions/show-apps-animation@omaranos.gmail.com/`
    3. Restart GNOME Shell:
